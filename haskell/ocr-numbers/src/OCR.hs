@@ -1,11 +1,20 @@
 module OCR (convert) where
 
 import Data.Maybe
+import Data.List
 
 convert :: String -> String
-convert xss = (parseLine (lines xss)) >>= ocrDigit
+convert = concat . (intersperse ",") . (map ocrLine) . (groupLines 4) . lines
 
+ocrLine :: LineGrid -> String
+ocrLine (LineGrid xss) = parseLine xss >>= ocrDigit
+  
+newtype LineGrid = LineGrid [String]
 
+-- | Form groups of n lines:
+groupLines :: Int -> [String] -> [LineGrid]
+groupLines _ [] = []
+groupLines n xs = LineGrid (take n xs) : groupLines n (drop n xs)
 
 newtype DigitGrid = DigitGrid [String]
 
