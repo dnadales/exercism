@@ -3,6 +3,11 @@ module OCR (convert) where
 import Data.Maybe
 import Data.List
 
+-- | For better solutions see:
+-- 
+--  - http://exercism.io/submissions/3c3799bc94d3446baf490acff982647b
+--  - http://exercism.io/submissions/3418d631ece240f1b33707313d5e05ac
+
 convert :: String -> String
 convert = concat . (intersperse ",") . (map ocrLine) . (groupLines 4) . lines
 
